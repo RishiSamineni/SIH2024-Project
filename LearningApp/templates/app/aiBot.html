@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Bot</title>
+    <link rel="stylesheet" href="{% static 'css/aiBot.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>AI Bot</h1>
+        <textarea id="userInput" placeholder="Enter your query here..."></textarea>
+        <button id="submitBtn">Submit</button>
+        
+        <div id="outputSection">
+            <h2>Output:</h2>
+            <div id="textOutput"></div>
+            <a id="pdfLink" href="#" download="output.pdf">Download PDF</a>
+            <div id="videoOutput"></div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            const userInput = document.getElementById('userInput').value;
+            
+            if (userInput.trim() === "") {
+                alert("Please enter a query.");
+                return;
+            }
+        
+            const aiResponse = "This is a simulated AI response to your input: " + userInput;
+            document.getElementById('textOutput').innerText = aiResponse;
+            
+            generatePDF(aiResponse);
+            displayVideo(userInput);
+        });
+        
+        function generatePDF(content) {
+            const pdfLink = document.getElementById('pdfLink');
+            
+            const pdfDoc = `
+                <html>
+                <head>
+                    <title>AI Bot Output</title>
+                </head>
+                <body>
+                    <h1>AI Bot Response</h1>
+                    <p>${content}</p>
+                </body>
+                </html>
+            `;
+            
+            // Blob type should be 'text/html' or use a library like jsPDF for proper PDF creation.
+            const blob = new Blob([pdfDoc], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            
+            pdfLink.href = url;
+            pdfLink.download = 'AI_Response.html'; // Suggest a filename for download
+        
+            // Revoke object URL after some time to prevent memory leaks
+            setTimeout(() => URL.revokeObjectURL(url), 10000); 
+        }
+        
+        function displayVideo(query) {
+            const videoOutput = document.getElementById('videoOutput');
+            const videoUrl = getVideoUrlBasedOnQuery(query); // Function to get video URL based on the query
+            
+            if (videoUrl) {
+                videoOutput.innerHTML = `
+                    <video controls width="100%">
+                        <source src="${videoUrl}" type="video/mp4">
+                    </video>
+                `;
+            } else {
+                videoOutput.innerHTML = "<p>No video found for this query.</p>";
+            }
+        }
+        
+        // Example function to get video URL dynamically
+        function getVideoUrlBasedOnQuery(query) {
+            // Implement your logic to fetch video based on the query
+            // For now, return a placeholder video for demonstration
+            return "sample-video.mp4"; // Replace with actual logic
+        }
+    </script>
+</body>
+</html>

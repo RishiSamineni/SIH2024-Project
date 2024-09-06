@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clickable Cards</title>
+    <link rel="stylesheet" href="{% static 'css/card.css' %}">
+</head>
+<body>
+    <div class="card-container">
+        <a href="{% url 'teacher' %}" class="card">
+            <div class="card-content">
+                <h2>With Teachers</h2>
+                <p>Scheduled Sessions for Doubts</p>
+            </div>
+        </a>
+        <a href="{% url 'aiBot' %}" class="card">
+            <div class="card-content">
+                <h2>With AI</h2>
+                <p>Instant Response by AI Chatbot</p>
+            </div>
+        </a>
+    </div>
+</body>
+</html>
